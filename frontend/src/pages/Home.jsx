@@ -41,7 +41,7 @@ const Home = () => {
       </div>
 
       {/* Content */}
-      <div className="relative h-full w-4/5 mx-auto overflow-y-hidden text-white">
+      <div className="relative h-full w-[90%] md:w-4/5 mx-auto overflow-y-hidden text-white">
         <h1 className="font-bold lexend-tera text-center text-5xl md:text-8xl uppercase mt-24 md:mt-36">Revenate</h1>
         <p className="dm-serif text-center text-3xl mt-8 md:text-6xl md:mt-12">From Static to Stunning.</p>
         <p className="text-center dm-sans mt-8 text-xl md:text-3xl md:mt-12">
