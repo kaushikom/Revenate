@@ -1,1 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=DM+Serif+Text:ital@0;1&family=Lexend+Tera:wght@100..900&display=swap');
 @import "tailwindcss";
+
+.lexend-tera{
+    font-family: "Lexend Tera", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  }
+
+  .dm-serif {
+    font-family: "DM Serif Text", serif;
+    font-style: normal;
+  }
+
+  .dm-sans {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+  }
