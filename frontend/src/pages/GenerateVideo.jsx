@@ -63,7 +63,7 @@ const GenerateVideo = () => {
       </div>
 
       {/* Right Panel: Side-by-side Previews */}
-      <div className="flex gap-6 items-start">
+      <div className="flex flex-col md:flex-row gap-6 items-start">
         {/* Upload Preview */}
         <div className="w-[240px] aspect-[9/16] border rounded-lg bg-gray-100 overflow-hidden flex items-center justify-center">
           {!file ? (
