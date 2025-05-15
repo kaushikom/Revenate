@@ -102,7 +102,7 @@ const GenerateVideo = () => {
       </div>
     </div>
     
-       {/* {processing && <p className='text-center'>*Please don't switch page while the video is being generated</p>} */}
+       {processing && <p className='text-center'>*Please don't switch page while the video is being generated</p>}
     </div>
   );
 };
