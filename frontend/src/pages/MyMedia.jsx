@@ -96,8 +96,6 @@ const MyMedia = () => {
 };
 
 const MediaCard = ({ item }) => {
-  const [isHovered, setIsHovered] = useState(false);
-  
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
@@ -106,12 +104,12 @@ const MediaCard = ({ item }) => {
       day: 'numeric'
     });
   };
-  
+
   const formatFileSize = (width, height) => {
     if (!width || !height) return '';
     return `${width} × ${height}`;
   };
-  
+
   const formatDuration = (seconds) => {
     if (!seconds) return '';
     const minutes = Math.floor(seconds / 60);
@@ -119,17 +117,15 @@ const MediaCard = ({ item }) => {
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
-  const getThumbnailUrl = (url) => {
-    // Transform Cloudinary URL to get video thumbnail
+  const getThumbnailUrl = () => {
+    if (item.thumbnailUrl) return item.thumbnailUrl;
     if (item.type === 'video') {
-      // return url.replace('/upload/', '/upload/w_600,h_400,c_fill/').replace(/\.[^.]+$/, '.jpg');
-      return item.thumbnailUrl
+      return item.url.replace('/upload/', '/upload/w_600,h_400,c_fill/').replace(/\.[^.]+$/, '.jpg');
     }
-    return url;
+    return item.url;
   };
 
   const handleCardClick = (e) => {
-    // Prevent opening when clicking video controls
     if (!e.target.closest('video, button, input, select, textarea')) {
       window.open(item.url, '_blank');
     }
@@ -137,39 +133,33 @@ const MediaCard = ({ item }) => {
 
   return (
     <div 
-    className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
-    onMouseEnter={() => setIsHovered(true)}
-    onMouseLeave={() => setIsHovered(false)}
-    onClick={handleCardClick}
-  >
-    <div className="relative aspect-video bg-gray-200 overflow-hidden">
-      {item.type === "image" ? (
-        <img 
-        src={item.thumbnailUrl || item.url} 
-        alt={item.originalFilename || "Image"} 
-        className="w-full h-full object-cover"
-      />
-      ) : (
-        <div className="relative w-full h-full">
+      className="bg-white rounded-lg shadow-md overflow-hidden cursor-pointer"
+      onClick={handleCardClick}
+    >
+      <div className="relative aspect-video bg-gray-200 overflow-hidden">
+        {item.type === "image" ? (
+          <img 
+            src={getThumbnailUrl()} 
+            alt={item.originalFilename || "Image"} 
+            className="w-full h-full object-cover"
+            onError={(e) => {
+              e.target.src = item.url;
+              console.error('Thumbnail failed to load:', getThumbnailUrl());
+            }}
+          />
+        ) : (
           <video 
             src={item.url} 
             className="w-full h-full object-cover" 
-            controls={isHovered}
-            poster={item.thumbnailUrl || item.url}
+            controls = {true}
+            poster={getThumbnailUrl()}
           />
-            {!isHovered && item.duration && (
-              <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white text-xs px-2 py-1 rounded">
-                {formatDuration(item.duration)}
-              </div>
-            )}
-          </div>
         )}
-        <div className={`absolute inset-0 bg-black bg-opacity-0 ${isHovered ? 'bg-opacity-10' : ''} transition-opacity duration-200`}></div>
       </div>
       <div className="p-3">
-      <p className="text-sm font-medium text-gray-800 truncate" title={item.createdAt}>
-  {new Date(item.createdAt).toLocaleString()}
-</p>
+        <p className="text-sm font-medium text-gray-800 truncate" title={item.createdAt}>
+          {new Date(item.createdAt).toLocaleString()}
+        </p>
         <div className="flex justify-between mt-1">
           <p className="text-xs text-gray-500">
             {formatDate(item.createdAt)}
@@ -182,5 +172,6 @@ const MediaCard = ({ item }) => {
     </div>
   );
 };
+
 
 export default MyMedia;
